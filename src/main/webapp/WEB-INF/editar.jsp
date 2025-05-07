@@ -1,31 +1,88 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.tecsup.lab06.model.Curso" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Editar Curso</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-<h1 class="text-3xl font-bold mb-6 text-blue-600">Editar Curso ✏️</h1>
-<%
-    Curso curso = (Curso) request.getAttribute("curso");
-%>
-<form action="CursoServlet?action=actualizar" method="post" class="bg-white p-8 rounded shadow-md w-80">
-    <div class="mb-4">
-        <label class="block text-gray-700">Código:</label>
-        <input type="text" name="codigo" value="<%= curso.getCodigo() %>" readonly class="w-full px-3 py-2 border rounded">
+<body class="bg-gradient-to-r from-indigo-50 to-purple-50 flex flex-col items-center justify-center min-h-screen p-4">
+<div class="w-full max-w-md">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-700 p-6">
+            <h1 class="text-2xl font-extrabold text-white text-center flex items-center justify-center">
+                <i class="fas fa-edit mr-3"></i>Editar Curso
+            </h1>
+        </div>
+
+        <form action="CursoServlet?action=actualizar" method="post" class="p-6">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="codigo">
+                        <i class="fas fa-hashtag mr-1"></i>Código
+                    </label>
+                    <input
+                            type="text"
+                            id="codigo"
+                            name="codigo"
+                            value="<c:out value='${curso.codigo}'/>"
+                            readonly
+                            class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">El código no puede ser modificado</p>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">
+                        <i class="fas fa-book mr-1"></i>Nombre
+                    </label>
+                    <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            value="<c:out value='${curso.nombre}'/>"
+                            required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="creditos">
+                        <i class="fas fa-star mr-1"></i>Créditos
+                    </label>
+                    <input
+                            type="number"
+                            id="creditos"
+                            name="creditos"
+                            value="<c:out value='${curso.creditos}'/>"
+                            required
+                            min="1"
+                            max="10"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                </div>
+            </div>
+
+            <div class="mt-8 flex gap-4">
+                <a href="CursoServlet?action=listar"
+                   class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+                    <i class="fas fa-arrow-left mr-2"></i>Cancelar
+                </a>
+                <button
+                        type="submit"
+                        class="flex-1 bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+                    <i class="fas fa-save mr-2"></i>Actualizar
+                </button>
+            </div>
+        </form>
+
+        <div class="bg-gray-50 px-6 py-4 border-t">
+            <p class="text-xs text-center text-gray-600">
+                <i class="fas fa-info-circle mr-1"></i>
+                Los cambios se guardarán en la base de datos
+            </p>
+        </div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Nombre:</label>
-        <input type="text" name="nombre" value="<%= curso.getNombre() %>" required class="w-full px-3 py-2 border rounded">
-    </div>
-    <div class="mb-6">
-        <label class="block text-gray-700">Créditos:</label>
-        <input type="number" name="creditos" value="<%= curso.getCreditos() %>" required class="w-full px-3 py-2 border rounded">
-    </div>
-    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Actualizar
-    </button>
-</form>
+</div>
 </body>
 </html>
